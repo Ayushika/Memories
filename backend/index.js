@@ -1,15 +1,12 @@
 /** @format */
 import express from "express";
 import mongoose from "mongoose";
-
+import PostRoutes from "./routes/posts.js";
 const app = express();
 
+app.use("/posts", PostRoutes);
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(express.urlencoded({ limit: "30mb", extended: true }));
-
-app.get("/", (req, res) => {
-  res.send("Api running");
-});
 
 const CONNECTION_URL =
   "mongodb+srv://ayushikaBansal:ayushikaBansal123@cluster0.tprhj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
