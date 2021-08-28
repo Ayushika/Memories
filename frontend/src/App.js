@@ -6,16 +6,16 @@ import memories from "./images/memories.png";
 import Posts from "./components/Posts/Posts";
 import FormContainer from "./components/FormContainer/FormContainer";
 import useStyles from "./styles";
-// import { useDispatch } from "react-redux";
-// import { getPosts } from "./actions/postsAction";
+import { useDispatch } from "react-redux";
+import { getPosts } from "./actions/PostAction";
 
 const App = () => {
   const classes = useStyles();
-  // const dispatch = useDispatch();
-  //
-  //   useEffect(() => {
-  //     dispatch(getPosts());
-  //   }, []);
+  const dispatch = useDispatch();
+  
+    useEffect(() => {
+      dispatch(getPosts());
+    }, []);
 
   return (
     <Container maxWidth='lg'>

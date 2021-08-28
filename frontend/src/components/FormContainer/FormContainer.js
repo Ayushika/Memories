@@ -6,7 +6,7 @@ import useStyles from "./styles";
 import { Paper, Typography, Button } from "@material-ui/core";
 import FormikControl from "./FormikControl";
 import { useDispatch } from "react-redux";
-// import { createPost } from "../../actions/postsAction";
+import { createPost } from "../../actions/PostAction";
 
 const FormContainer = () => {
   const classes = useStyles();
@@ -47,7 +47,7 @@ const FormContainer = () => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    // dispatch(createPost(values));
+    dispatch(createPost(values));
     onSubmitProps.setSubmitting(false);
   };
 

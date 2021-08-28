@@ -13,7 +13,7 @@ export const getPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
   const post = req.body;
-
+  console.log(post);
   try {
     const newPost = await PostMessage.create(post);
     if (newPost) res.status(200).json(newPost);
