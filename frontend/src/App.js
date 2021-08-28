@@ -1,40 +1,52 @@
 /** @format */
 
-import React from "react";
-import {
-  Container,
-  Typography,
-  AppBar,
-  Grid,
-  Grow,
-  Toolbar,
-  Paper,
-} from "@material-ui/core";
-import { useStyles } from "./styles";
+import React, { useEffect } from "react";
+import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
+import memories from "./images/memories.png";
 import Posts from "./components/Posts/Posts";
-import Form from "./components/Form/Form";
+import FormContainer from "./components/FormContainer/FormContainer";
+import useStyles from "./styles";
+// import { useDispatch } from "react-redux";
+// import { getPosts } from "./actions/postsAction";
 
 const App = () => {
   const classes = useStyles();
+  // const dispatch = useDispatch();
+  //
+  //   useEffect(() => {
+  //     dispatch(getPosts());
+  //   }, []);
 
   return (
-    <div className={classes.root}>
-      <AppBar position='static' className={classes.appbar}>
-        <Toolbar>
-          <Typography variant='h6' className={classes.title}>
-            MEMORIES
-          </Typography>
-        </Toolbar>
+    <Container maxWidth='lg'>
+      <AppBar className={classes.appBar} position='static' color='inherit'>
+        <Typography className={classes.heading} variant='h2' align='center'>
+          Memories
+        </Typography>
+        <img
+          src={memories}
+          className={classes.image}
+          alt='memories'
+          height='80'
+        />
       </AppBar>
-      <Grid container direction='row' justifyContent='center' spacing={3}>
-        <Grid item xs={12} sm={7}>
-          <Posts />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <Form />
-        </Grid>
-      </Grid>
-    </div>
+      <Grow in>
+        <Container>
+          <Grid
+            container
+            justifyContent='space-between'
+            alignItems='stretch'
+            spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Posts />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <FormContainer />
+            </Grid>
+          </Grid>
+        </Container>
+      </Grow>
+    </Container>
   );
 };
 

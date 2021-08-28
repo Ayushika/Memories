@@ -2,20 +2,19 @@
 
 import { makeStyles } from "@material-ui/core/styles";
 
-export const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+export default makeStyles(() => ({
+  appBar: {
+    borderRadius: 15,
+    margin: "30px 0",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  appbar: {
-    backgroundColor: "teal",
+  heading: {
+    color: "rgba(0,183,255, 1)",
   },
-  title: {
-    textAlign: "center",
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+  image: {
+    marginLeft: "15px",
   },
 }));
