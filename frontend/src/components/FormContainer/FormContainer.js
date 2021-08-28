@@ -1,15 +1,20 @@
 /** @format */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import useStyles from "./styles";
 import { Paper, Typography, Button } from "@material-ui/core";
 import FormikControl from "./FormikControl";
-import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/PostAction";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, updatePost } from "../../actions/PostAction";
 
-const FormContainer = () => {
+const FormContainer = ({ currentId, setcurrentId }) => {
+  const [formValues, setFormValues] = useState(null);
   const classes = useStyles();
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null,
+  );
+
   const initialValues = {
     creator: "",
     title: "",
@@ -19,49 +24,51 @@ const FormContainer = () => {
   };
 
   const dispatch = useDispatch();
-
-  // const FILE_SIZE = 160 * 1024;
-  // const SUPPORTED_FORMATS = [
-  //     "image/jpg",
-  //     "image/jpeg",
-  //     "image/gif",
-  //     "image/png",
-  // ];
+  useEffect(() => {
+    if (currentId) {
+      initialValues.creator = post.creator;
+      initialValues.title = post.title;
+      initialValues.message = post.message;
+      initialValues.tags = post.tags;
+      initialValues.selectedFile = post.selectedFile;
+      setFormValues(post);
+    }
+  }, [post, currentId]);
 
   const validationSchema = Yup.object({
     creator: Yup.string().required("Required !"),
     title: Yup.string().required("Required !"),
     message: Yup.string().required("Required !"),
-    // selectedFile: Yup.mixed()
-    // .required("A File is Required")
-    // .test(
-    //     "fileSize",
-    //     "File too large",
-    //     (value) => value && value.size <= FILE_SIZE,
-    // )
-    // .test(
-    //     "fileFormat",
-    //     "Unsupported Format",
-    //     (value) => value && SUPPORTED_FORMATS.includes(value.type),
-    // ),
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    dispatch(createPost(values));
+    if (currentId) {
+      console.log("updated");
+      dispatch(updatePost(currentId, values));
+    } else {
+      dispatch(createPost(values));
+    }
     onSubmitProps.setSubmitting(false);
+    handleReset();
   };
 
-  const handleReset = () => {};
+  const handleReset = () => {
+    setcurrentId(null);
+    setFormValues(null);
+  };
 
   return (
     <Formik
-      initialValues={initialValues}
+      enableReinitialize
+      initialValues={formValues || initialValues}
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
       {(formik) => (
         <Paper className={classes.paper}>
           <Form className={`${classes.root} ${classes.form}`}>
-            <Typography variant='h6'>Creating a memory</Typography>
+            <Typography variant='h6'>
+              {currentId ? "Editing" : "Creating"} A Memory
+            </Typography>
             <FormikControl
               control='input'
               name='creator'
@@ -101,7 +108,7 @@ const FormContainer = () => {
               type='submit'
               fullWidth
               disabled={!formik.isValid || formik.isSubmitting}>
-              Create
+              {currentId ? "Edit" : "Create"}
             </Button>
             <Button
               className={classes.buttonSubmit}
