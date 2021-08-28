@@ -19,7 +19,7 @@ const FormContainer = ({ currentId, setcurrentId }) => {
     creator: "",
     title: "",
     message: "",
-    tags: "",
+    tags: [],
     selectedFile: "",
   };
 
@@ -39,6 +39,9 @@ const FormContainer = ({ currentId, setcurrentId }) => {
     creator: Yup.string().required("Required !"),
     title: Yup.string().required("Required !"),
     message: Yup.string().required("Required !"),
+    // tags: Yup.string().transform((value) =>
+    //   Array.from(new Set(value.split(","))),
+    // ),
   });
 
   const onSubmit = async (values, onSubmitProps) => {

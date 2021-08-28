@@ -6,6 +6,7 @@ export const PostReducer = (posts = [], action) => {
       return action.payload;
 
     case "UPDATE_POST":
+    case "LIKE_POST":
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post,
       );
