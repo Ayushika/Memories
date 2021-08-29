@@ -24,13 +24,9 @@ const FormContainer = ({ currentId, setcurrentId }) => {
   };
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (currentId) {
-      initialValues.creator = post.creator;
-      initialValues.title = post.title;
-      initialValues.message = post.message;
-      initialValues.tags = post.tags;
-      initialValues.selectedFile = post.selectedFile;
       setFormValues(post);
     }
   }, [post, currentId]);
@@ -39,25 +35,20 @@ const FormContainer = ({ currentId, setcurrentId }) => {
     creator: Yup.string().required("Required !"),
     title: Yup.string().required("Required !"),
     message: Yup.string().required("Required !"),
-    // tags: Yup.string().transform((value) =>
-    //   Array.from(new Set(value.split(","))),
-    // ),
+   
   });
 
   const onSubmit = async (values, onSubmitProps) => {
     if (currentId) {
-      console.log("updated");
       dispatch(updatePost(currentId, values));
     } else {
       dispatch(createPost(values));
     }
     onSubmitProps.setSubmitting(false);
-    handleReset();
-  };
-
-  const handleReset = () => {
     setcurrentId(null);
-    setFormValues(null);
+    initialValues.selectedFile = "";
+    setFormValues(initialValues);
+    onSubmitProps.resetForm();
   };
 
   return (
@@ -112,15 +103,6 @@ const FormContainer = ({ currentId, setcurrentId }) => {
               fullWidth
               disabled={!formik.isValid || formik.isSubmitting}>
               {currentId ? "Edit" : "Create"}
-            </Button>
-            <Button
-              className={classes.buttonSubmit}
-              variant='contained'
-              color='secondary'
-              size='large'
-              fullWidth
-              onClick={handleReset}>
-              Reset
             </Button>
           </Form>
         </Paper>

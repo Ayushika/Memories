@@ -28,6 +28,8 @@ const Post = ({ post, setcurrentId }) => {
     message,
     _id,
   } = post;
+
+  const tagValues = tags[0].split(",");
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -48,14 +50,14 @@ const Post = ({ post, setcurrentId }) => {
       </div>
       <div className={classes.details}>
         <Typography variant='body2' color='textSecondary'>
-          {tags.map((tag) => `#${tag} `)}
+          {tagValues.map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <Typography className={classes.title} variant='h6' gutterBottom>
         {title}
       </Typography>
       <CardContent>
-        <Typography variant='body2' color='textSecondary' >
+        <Typography variant='body2' color='textSecondary'>
           {message}
         </Typography>
       </CardContent>
@@ -68,19 +70,18 @@ const Post = ({ post, setcurrentId }) => {
             console.log(_id);
           }}>
           <ThumbUpAltIcon fontSize='small' />
-          Like{` ${likeCount}`}
+          {`  Like ${likeCount}`}
         </Button>
         <Button
           size='small'
-          color='primary'
+          color='secondary'
           onClick={() => {
             dispatch(deletePost(_id));
           }}>
           <DeleteIcon fontSize='small' />
-          Delete
+          {" Delete"}
         </Button>
       </CardActions>
-      {/* </CardMedia> */}
     </Card>
   );
 };
