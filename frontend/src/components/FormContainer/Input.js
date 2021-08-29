@@ -1,14 +1,17 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import { Field, ErrorMessage } from "formik";
-import { TextField } from "@material-ui/core";
+import { TextField, InputAdornment, IconButton } from "@material-ui/core";
 import TextError from "./TextError";
 import useStyles from "./styles";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const Input = (props) => {
   const classes = useStyles();
-  const { type, label, name, ...rest } = props;
+  const { type, label, name, handleShowPassword, ...rest } = props;
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Field name={name}>
@@ -26,6 +29,21 @@ const Input = (props) => {
               name={name}
               {...rest}
               {...field}
+              InputProps={
+                name === "password" && {
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton onClick={() => handleShowPassword}>
+                        {type === "password" ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }
+              }
             />
             <ErrorMessage name={name} component={TextError} />
           </>

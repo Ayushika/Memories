@@ -35,7 +35,6 @@ const FormContainer = ({ currentId, setcurrentId }) => {
     creator: Yup.string().required("Required !"),
     title: Yup.string().required("Required !"),
     message: Yup.string().required("Required !"),
-   
   });
 
   const onSubmit = async (values, onSubmitProps) => {
