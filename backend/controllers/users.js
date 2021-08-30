@@ -1,6 +1,6 @@
 /** @format */
 
-import Users from "../models/users";
+import Users from "../models/users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -42,6 +42,7 @@ export const signUp = async (req, res) => {
       password: hashedPassword,
       name: `${firstName} ${lastName}`,
     });
+
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
       "test",
