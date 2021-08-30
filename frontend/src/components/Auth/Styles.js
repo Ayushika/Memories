@@ -9,9 +9,11 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: theme.spacing(2),
+    marginBottom: theme.spacing(4),
   },
   link: {
     cursor: "pointer",
+    textDecoration: "none",
     color: "#3F51B5",
   },
   root: {

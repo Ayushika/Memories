@@ -31,27 +31,26 @@ const Post = ({ post, setcurrentId }) => {
     _id,
   } = post;
 
-  const tagValues = tags[0].split(",");
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
 
   const Likes = () => {
-    if (post.likes.length > 0) {
-      return post.likes.find(
+    if (likes.length > 0) {
+      return likes.find(
         (like) => like === (user?.result?.googleId || user?.result?._id),
       ) ? (
         <>
           <ThumbUpAltIcon fontSize='small' />
           &nbsp;
-          {post.likes.length > 2
-            ? `You and ${post.likes.length - 1} others`
-            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+          {likes.length > 2
+            ? `You and ${likes.length - 1} others`
+            : `${likes.length} like${likes.length > 1 ? "s" : ""}`}
         </>
       ) : (
         <>
           <ThumbUpAltOutlined fontSize='small' />
-          &nbsp;{post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+          &nbsp;{likes.length} {likes.length === 1 ? "Like" : "Likes"}
         </>
       );
     }
@@ -84,7 +83,7 @@ const Post = ({ post, setcurrentId }) => {
       </div>
       <div className={classes.details}>
         <Typography variant='body2' color='textSecondary'>
-          {tagValues.map((tag) => `#${tag} `)}
+          {tags.map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <Typography className={classes.title} variant='h6' gutterBottom>
@@ -99,6 +98,7 @@ const Post = ({ post, setcurrentId }) => {
         <Button
           size='small'
           color='primary'
+          disabled={!user}
           onClick={() => {
             dispatch(likePost(_id));
             console.log(_id);

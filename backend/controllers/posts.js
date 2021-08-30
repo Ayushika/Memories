@@ -12,11 +12,32 @@ export const getPosts = async (req, res) => {
   }
 };
 
+export const getPostsBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+
+  try {
+    const title = new RegExp(searchQuery, "i");
+
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    console.log(posts.length);
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
 export const createPost = async (req, res) => {
   const post = req.body;
+  const { tags } = post;
+
+  const getTags = tags.split(",");
+
   try {
     const newPost = await PostMessage.create({
       ...post,
+      tags: getTags,
       creator: req.userId,
       createdAt: new Date().toISOString(),
     });
