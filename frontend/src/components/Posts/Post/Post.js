@@ -18,12 +18,22 @@ import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/PostAction";
 
 const Post = ({ post, setcurrentId }) => {
-  const { selectedFile, name, createdAt, title, likes, tags, message, _id } =
-    post;
+  const {
+    selectedFile,
+    creator,
+    name,
+    createdAt,
+    title,
+    likes,
+    tags,
+    message,
+    _id,
+  } = post;
 
   const tagValues = tags[0].split(",");
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   return (
     <Card className={classes.card}>
@@ -33,12 +43,15 @@ const Post = ({ post, setcurrentId }) => {
         <Typography variant='body2'>{moment(createdAt).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size='small'
-          onClick={() => setcurrentId(_id)}>
-          <MoreHorizIcon fontSize='small' />
-        </Button>
+        {(user?.result?.googleId === creator ||
+          user?.result?._id === creator) && (
+          <Button
+            style={{ color: "white" }}
+            size='small'
+            onClick={() => setcurrentId(_id)}>
+            <MoreHorizIcon fontSize='small' />
+          </Button>
+        )}
       </div>
       <div className={classes.details}>
         <Typography variant='body2' color='textSecondary'>
@@ -64,15 +77,18 @@ const Post = ({ post, setcurrentId }) => {
           <ThumbUpAltIcon fontSize='small' />
           {`  Like ${likes.length}`}
         </Button>
-        <Button
-          size='small'
-          color='secondary'
-          onClick={() => {
-            dispatch(deletePost(_id));
-          }}>
-          <DeleteIcon fontSize='small' />
-          {" Delete"}
-        </Button>
+        {(user?.result?.googleId === creator ||
+          user?.result?._id === creator) && (
+          <Button
+            size='small'
+            color='secondary'
+            onClick={() => {
+              dispatch(deletePost(_id));
+            }}>
+            <DeleteIcon fontSize='small' />
+            {" Delete"}
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
