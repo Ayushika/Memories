@@ -15,7 +15,11 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
   const post = req.body;
   try {
-    const newPost = await PostMessage.create(post);
+    const newPost = await PostMessage.create({
+      ...post,
+      creator: req.userId,
+      createdAt: new Date().toISOString(),
+    });
     if (newPost) res.status(200).json(newPost);
   } catch (error) {
     res.status(400).json({ error: error });

@@ -9,9 +9,11 @@ const postSchema = mongoose.Schema({
   message: {
     type: String,
   },
+  name :{
+    type: String
+  },
   creator: {
     type: String,
-    required: true,
   },
   tags: {
     type: [String],

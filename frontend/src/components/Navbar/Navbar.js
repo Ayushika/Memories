@@ -70,7 +70,7 @@ const Navbar = () => {
               variant='contained'
               color='primary'
               component={Link}
-              to='/auth'>
+              to='/register'>
               Sign in
             </Button>
           )}

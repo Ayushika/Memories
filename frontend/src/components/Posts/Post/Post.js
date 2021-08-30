@@ -18,16 +18,8 @@ import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/PostAction";
 
 const Post = ({ post, setcurrentId }) => {
-  const {
-    selectedFile,
-    creator,
-    createdAt,
-    title,
-    likeCount,
-    tags,
-    message,
-    _id,
-  } = post;
+  const { selectedFile, name, createdAt, title, likes, tags, message, _id } =
+    post;
 
   const tagValues = tags[0].split(",");
   const classes = useStyles();
@@ -37,7 +29,7 @@ const Post = ({ post, setcurrentId }) => {
     <Card className={classes.card}>
       <CardMedia className={classes.media} image={selectedFile} title={title} />
       <div className={classes.overlay}>
-        <Typography variant='h6'>{creator}</Typography>
+        <Typography variant='h6'>{name}</Typography>
         <Typography variant='body2'>{moment(createdAt).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
@@ -70,7 +62,7 @@ const Post = ({ post, setcurrentId }) => {
             console.log(_id);
           }}>
           <ThumbUpAltIcon fontSize='small' />
-          {`  Like ${likeCount}`}
+          {`  Like ${likes.length}`}
         </Button>
         <Button
           size='small'

@@ -30,7 +30,7 @@ export const signIn = async (req, res) => {
 
 export const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
-
+  console.log(req.body);
   try {
     const existingUser = await Users.findOne({ email });
     if (existingUser) res.status(404).json({ message: "User already exists" });
@@ -43,13 +43,12 @@ export const signUp = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
-      "test",
-      { expiresIn: "1h" },
-    );
-
+    const token = jwt.sign({ email: result.email, id: result._id }, "test", {
+      expiresIn: "1h",
+    });
+    console.log("ok1");
     res.status(200).json({ result, token });
+    console.log("ok2");
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }

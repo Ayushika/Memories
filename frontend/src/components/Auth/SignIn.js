@@ -1,4 +1,5 @@
 /** @format */
+
 import React from "react";
 import GoogleIcon from "./GoogleIcon";
 import useStyles from "./styles";
@@ -13,40 +14,28 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import FormikControl from "../FormContainer/FormikControl";
 import { Formik, Form } from "formik";
-import { signUp } from "../../actions/AuthAction";
-import { useDispatch } from "react-redux";
-import { useHistory, Link } from "react-router-dom";
+import {signIn} from "../../actions/AuthAction"
+import {useDispatch} from "react-redux";
+import {useHistory ,Link} from "react-router-dom"
 import * as Yup from "yup";
 
-const Auth = () => {
+const SignIn = () => {
   const classes = useStyles();
-  // const [isSignUp, setIsSignUp] = useState(false);
-  // const [showPassword, setShowPassword] = useState(false);
-  const history = useHistory();
   const dispatch = useDispatch();
-
-  // const handleShowPassword = () => setShowPassword((prev) => !prev);
-  // const switchMode = () => setIsSignUp((prev) => !prev);
+  const history = useHistory();
 
   const initialValues = {
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
-    confirmPassword: "",
   };
 
   const validationSchema = Yup.object({
-    firstName: Yup.string().required("Required !"),
     email: Yup.string().email("Invalid email format").required("Required"),
     password: Yup.string().required("Required").min(8, "Minimun 8 characters"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), ""], "Confirm Password Must Match Password")
-      .required("Required"),
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    dispatch(signUp(values, history));
+    dispatch(signIn(values, history));
   };
 
   return (
@@ -55,7 +44,7 @@ const Auth = () => {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variant='h5'>Sign Up</Typography>
+        <Typography variant='h5'>Sign In</Typography>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -64,19 +53,6 @@ const Auth = () => {
             return (
               <Form className={classes.form}>
                 <Grid container spacing={2}>
-                  <FormikControl
-                    control='input'
-                    name='firstName'
-                    label='First Name'
-                    type='text'
-                  />
-                  <FormikControl
-                    control='input'
-                    name='lastName'
-                    label='Last Name'
-                    type='text'
-                  />
-
                   <FormikControl
                     control='input'
                     name='email'
@@ -91,13 +67,6 @@ const Auth = () => {
                     type='password'
                   />
 
-                  <FormikControl
-                    control='input'
-                    name='confirmPassword'
-                    label='Confirm Password'
-                    type='password'
-                  />
-
                   <Button
                     className={classes.submit}
                     variant='contained'
@@ -106,16 +75,16 @@ const Auth = () => {
                     type='submit'
                     fullWidth
                     disabled={!formik.isValid || formik.isSubmitting}>
-                    Sign Up
+                    Sign In
                   </Button>
                   <GoogleIcon />
                 </Grid>
 
                 <Grid container>
                   <Grid item>
-                    <Link to='/login' className='link'>
+                    <Link to='/register' className='link'>
                       <p className={classes.link} variant='body2'>
-                        {"Already have an account? Sign In"}
+                        {"Don't have an account? Sign Up"}
                       </p>
                     </Link>
                   </Grid>
@@ -129,4 +98,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default SignIn;

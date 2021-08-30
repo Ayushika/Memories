@@ -11,12 +11,12 @@ import { createPost, updatePost } from "../../actions/PostAction";
 const FormContainer = ({ currentId, setcurrentId }) => {
   const [formValues, setFormValues] = useState(null);
   const classes = useStyles();
+  const user = JSON.parse(localStorage.getItem("profile"));
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null,
   );
 
   const initialValues = {
-    creator: "",
     title: "",
     message: "",
     tags: [],
@@ -32,16 +32,15 @@ const FormContainer = ({ currentId, setcurrentId }) => {
   }, [post, currentId]);
 
   const validationSchema = Yup.object({
-    creator: Yup.string().required("Required !"),
     title: Yup.string().required("Required !"),
     message: Yup.string().required("Required !"),
   });
 
   const onSubmit = async (values, onSubmitProps) => {
     if (currentId) {
-      dispatch(updatePost(currentId, values));
+      dispatch(updatePost(currentId, { ...values, name: user?.result?.name }));
     } else {
-      dispatch(createPost(values));
+      dispatch(createPost({ ...values, name: user?.result?.name }));
     }
     onSubmitProps.setSubmitting(false);
     setcurrentId(null);
@@ -50,6 +49,15 @@ const FormContainer = ({ currentId, setcurrentId }) => {
     onSubmitProps.resetForm();
   };
 
+  if (!user?.result?.name) {
+    return (
+      <Paper className='classes.paper'>
+        <Typography variant='h6' align='center'>
+          Please Sign In to create your own Memories and like other's memories
+        </Typography>
+      </Paper>
+    );
+  }
   return (
     <Formik
       enableReinitialize
@@ -62,12 +70,7 @@ const FormContainer = ({ currentId, setcurrentId }) => {
             <Typography variant='h6'>
               {currentId ? "Editing" : "Creating"} A Memory
             </Typography>
-            <FormikControl
-              control='input'
-              name='creator'
-              label='Creator'
-              type='text'
-            />
+
             <FormikControl
               control='input'
               name='title'
