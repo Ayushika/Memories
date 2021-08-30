@@ -18,6 +18,7 @@ import { Formik, Form } from "formik";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { signUp, signIn } from "../../actions/AuthAction";
 
 const Auth = () => {
   const classes = useStyles();
@@ -49,14 +50,15 @@ const Auth = () => {
   };
 
   const initialValues = {
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().required("Required !"),
+    firstName: Yup.string().required("Required !"),
     email: Yup.string().email("Invalid email format").required("Required"),
     password: Yup.string().required("Required").min(8, "Minimun 8 characters"),
     confirmPassword: Yup.string()
@@ -65,7 +67,11 @@ const Auth = () => {
   });
 
   const onSubmit = async (values, onSubmitProps) => {
-    console.log(values);
+    if (isSignUp) {
+      dispatch(signUp(values, history));
+    } else {
+      dispatch(signIn(values, history));
+    }
   };
 
   return (
@@ -87,8 +93,14 @@ const Auth = () => {
                     <>
                       <FormikControl
                         control='input'
-                        name='name'
-                        label='Name'
+                        name='firstName'
+                        label='First Name'
+                        type='text'
+                      />
+                      <FormikControl
+                        control='input'
+                        name='lastName'
+                        label='Last Name'
                         type='text'
                       />
                     </>
