@@ -52,7 +52,7 @@ const FormContainer = ({ currentId, setcurrentId }) => {
   if (!user?.result?.name) {
     return (
       <Paper className='classes.paper'>
-        <Typography variant='h6' align='center'>
+        <Typography variant='h6' align='center' elevation={6} raised>
           Please Sign In to create your own Memories and like other's memories
         </Typography>
       </Paper>
@@ -65,7 +65,7 @@ const FormContainer = ({ currentId, setcurrentId }) => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}>
       {(formik) => (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6} raised>
           <Form className={`${classes.root} ${classes.form}`}>
             <Typography variant='h6'>
               {currentId ? "Editing" : "Creating"} A Memory

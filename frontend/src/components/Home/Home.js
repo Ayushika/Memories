@@ -38,7 +38,9 @@ const Home = () => {
   const searchPost = () => {
     if (search.trim() || tags) {
       dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
-      history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(",")}`)
+      history.push(
+        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`,
+      );
     } else {
       history.push("/");
     }
@@ -60,11 +62,11 @@ const Home = () => {
 
   return (
     <Grow in>
-      <Container>
+      <Container maxWidth='xl'>
         <Grid
-          container
           justifyContent='space-between'
           alignItems='stretch'
+          container
           className={classes.gridContainer}
           spacing={3}>
           <Grid item xs={12} sm={6} md={9}>
