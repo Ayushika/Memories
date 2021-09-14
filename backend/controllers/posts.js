@@ -4,9 +4,23 @@ import PostMessage from "../models/postMessage.js";
 import mongoose from "mongoose";
 
 export const getPosts = async (req, res) => {
+  const { page } = req.query;
+
   try {
-    const posts = await PostMessage.find();
-    res.status(200).json(posts);
+    const LIMIT = 2;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await PostMessage.countDocuments({});
+
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex);
+
+    res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      numberOfPages: Math.ceil(total / LIMIT),
+    });
   } catch (error) {
     res.status(400).json({ error: error });
   }
@@ -28,6 +42,7 @@ export const getPostsBySearch = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
 export const createPost = async (req, res) => {
   const post = req.body;
   const { tags } = post;

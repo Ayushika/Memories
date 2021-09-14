@@ -18,14 +18,12 @@ const config = {
   },
 };
 
-export const fetchPosts = () => axios.get("/posts");
+export const fetchPosts = (page) => axios.get(`/posts?page=${page}`);
 export const fetchPostsBySearch = (searchQuery) =>
   axios.get(
     `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
       searchQuery.tags
     }`,
-
-    
   );
 export const createNewPost = (newpost) => axios.post("/posts", newpost, config);
 export const updatePost = (id, post) => axios.put(`/posts/${id}`, post, config);

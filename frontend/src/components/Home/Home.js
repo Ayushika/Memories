@@ -15,8 +15,8 @@ import {
 import ChipInput from "material-ui-chip-input";
 import Posts from "../Posts/Posts";
 import FormContainer from "../FormContainer/FormContainer";
-import { getPosts, getPostsBySearch } from "../../actions/PostAction";
-import Paginate from "../Pagination";
+import { getPostsBySearch } from "../../actions/PostAction";
+import Pagination from "../Pagination";
 import useStyles from "./styles";
 
 function useQuery() {
@@ -56,10 +56,7 @@ const Home = () => {
       searchPost();
     }
   };
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
-
+ 
   return (
     <Grow in>
       <Container maxWidth='xl'>
@@ -104,7 +101,7 @@ const Home = () => {
             </AppBar>
             <FormContainer setcurrentId={setcurrentId} currentId={currentId} />
             <Paper elevation={6}>
-              <Paginate />
+              <Pagination page={page} />
             </Paper>
           </Grid>
         </Grid>
