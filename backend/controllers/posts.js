@@ -18,7 +18,7 @@ export const getPosts = async (req, res) => {
   const { page } = req.query;
 
   try {
-    const LIMIT = 2;
+    const LIMIT = 8;
     const startIndex = (Number(page) - 1) * LIMIT;
     const total = await PostMessage.countDocuments({});
 
@@ -47,7 +47,7 @@ export const getPostsBySearch = async (req, res) => {
       $or: [{ title }, { tags: { $in: tags.split(",") } }],
     });
 
-    console.log(posts.length);
+    // console.log(posts.length);
     res.json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
