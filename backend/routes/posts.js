@@ -8,12 +8,15 @@ import {
   deletePost,
   likePost,
   getPostsBySearch,
+  getPost
 } from "../controllers/posts.js";
 import auth from "../middleware/auth.js";
 const router = express.Router();
 
 //localhost/posts/
+
 router.get("/search" ,getPostsBySearch)
+router.get("/:id", getPost);
 router.get("/", getPosts);
 router.post("/", auth, createPost);
 router.put("/:id", auth, updatePost);

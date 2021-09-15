@@ -9,6 +9,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  ButtonBase,
 } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import ThumbUpAltOutlined from "@material-ui/icons/ThumbUpAltOutlined";
@@ -17,6 +18,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/PostAction";
+import { useHistory } from "react-router-dom";
 
 const Post = ({ post, setcurrentId }) => {
   const {
@@ -33,7 +35,12 @@ const Post = ({ post, setcurrentId }) => {
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const openPost = () => {
+    history.push(`/posts/${_id}`);
+  };
 
   const Likes = () => {
     if (likes.length > 0) {
@@ -70,6 +77,7 @@ const Post = ({ post, setcurrentId }) => {
         <Typography variant='h6'>{name}</Typography>
         <Typography variant='body2'>{moment(createdAt).fromNow()}</Typography>
       </div>
+
       <div className={classes.overlay2}>
         {(user?.result?.googleId === creator ||
           user?.result?._id === creator) && (
@@ -81,19 +89,21 @@ const Post = ({ post, setcurrentId }) => {
           </Button>
         )}
       </div>
-      <div className={classes.details}>
-        <Typography variant='body2' color='textSecondary'>
-          {tags.map((tag) => `#${tag} `)}
+      <ButtonBase onClick={openPost} className={classes.cardAction}>
+        <div className={classes.details}>
+          <Typography variant='body2' color='textSecondary'>
+            {tags.map((tag) => `#${tag} `)}
+          </Typography>
+        </div>
+        <Typography className={classes.title} variant='h6' gutterBottom>
+          {title}
         </Typography>
-      </div>
-      <Typography className={classes.title} variant='h6' gutterBottom>
-        {title}
-      </Typography>
-      <CardContent>
-        <Typography variant='body2' color='textSecondary'>
-          {message}
-        </Typography>
-      </CardContent>
+        <CardContent>
+          <Typography variant='body2' color='textSecondary'>
+            {message}
+          </Typography>
+        </CardContent>
+      </ButtonBase>
       <CardActions className={classes.cardActions}>
         <Button
           size='small'

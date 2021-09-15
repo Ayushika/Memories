@@ -10,7 +10,25 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
 } from "../constants/ActionTypes";
+
+export const getPost = (id) => async (dispatch) => {
+  console.log("action ", id);
+  try {
+    dispatch({ type: START_LOADING });
+    const { data } = await api.fetchPost(id);
+
+    dispatch({
+      type: FETCH_POST,
+      payload: data,
+    });
+
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 export const getPosts = (page) => async (dispatch) => {
   try {

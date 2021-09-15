@@ -25,6 +25,8 @@ export const fetchPostsBySearch = (searchQuery) =>
       searchQuery.tags
     }`,
   );
+
+export const fetchPost = (id) => axios.get(`/posts/${id}`);
 export const createNewPost = (newpost) => axios.post("/posts", newpost, config);
 export const updatePost = (id, post) => axios.put(`/posts/${id}`, post, config);
 export const deletePost = (id) => axios.delete(`/posts/${id}`);

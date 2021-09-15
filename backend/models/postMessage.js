@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
     type: String,
   },
   name :{
-    type: String
+    type: String,
   },
   creator: {
     type: String,
